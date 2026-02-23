@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BallFlix · where football never ends</title>
+    <!-- Font Awesome 6 (free) for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: #0b0e0c;
+            background-image: radial-gradient(circle at 10% 20%, #1a3f2a 0%, #0a140e 90%);
+            color: #ffffff;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2a23;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b89147;
+            border-radius: 20px;
+        }
+
+        /* layout */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* header / nav */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 40px;
+            background: linear-gradient(180deg, #0f1f17 0%, rgba(10,20,14,0.95) 100%);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid #b89147;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            background: linear-gradient(145deg, #f5c542, #b87c2e);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 800;
+            color: #0b1e12;
+            box-shadow: 0 0 0 2px #e9c27c, 0 8px 16px rgba(0,0,0,0.7);
+            transform: rotate(5deg);
+            transition: 0.2s;
+        }
+
+        .logo-icon:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 0 0 3px #f3d48b;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #f9e7b3, #d4a76a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 10px rgba(184,145,71,0.4);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #eee;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.05rem;
+            transition: 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a:hover {
+            color: #f5c958;
+            border-bottom: 2px solid #d4a559;
+        }
+
+        .user-menu {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .user-menu i {
+            font-size: 1.6rem;
+            color: #e2c285;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .user-menu i:hover {
+            color: #ffd966;
+            transform: scale(1.1);
+        }
+
+        .avatar {
+            background: #3f5c4b;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #c9a351;
+        }
+
+        /* hero panel (featured) */
+        .hero {
+            margin: 40px 40px 48px;
+            border-radius: 32px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(90deg, #121f17 20%, transparent 80%),
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" width="1200" height="500"><rect width="1200" height="500" fill="%23254d2e"/><circle cx="900" cy="250" r="140" fill="%233a6b47"/><circle cx="820" cy="200" r="30" fill="%23f3c26b"/><circle cx="970" cy="290" r="45" fill="%23f3c26b"/><path d="M700 300 L750 180 L800 280 L860 190 L900 330 L820 380 L730 360 L680 300" fill="%23d49c44" opacity="0.3"/></svg>');
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 30px 40px -20px black;
+        }
+
+        .hero-content {
+            padding: 80px 50px;
+            max-width: 650px;
+        }
+
+        .hero-badge {
+            background: #b68b40;
+            display: inline-block;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            border: 1px solid #ecd08c;
+            color: #0e1f13;
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff8e0, #fcd394);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: #ddd;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn-primary {
+            background: #f3c45a;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #132218;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 10px 20px -5px #826320;
+        }
+
+        .btn-primary:hover {
+            background: #ffd97a;
+            transform: scale(1.03);
+        }
+
+        .btn-secondary {
+            background: rgba(20, 30, 24, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #c5a156;
+            padding: 14px 36px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #f2dba5;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #2e4437;
+            border-color: #efcd85;
+            color: white;
+        }
+
+        /* category rows */
+        .category-row {
+            margin: 48px 40px 32px;
+        }
+
+        .row-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 16px;
+        }
+
+        .row-header h2 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .row-header h2 i {
+            color: #dbb05c;
+            font-size: 1.8rem;
+        }
+
+        .row-link {
+            color: #cfa45c;
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px dashed #7a623a;
+        }
+
+        .row-link:hover {
+            color: #fad67c;
+        }
+
+        /* thumbnail slider (horizontal scroll) */
+        .thumb-row {
+            display: flex;
+            gap: 18px;
+            overflow-x: auto;
+            padding: 8px 0 24px;
+            scroll-behavior: smooth;
+        }
+
+        .thumb-card {
+            min-width: 280px;
+            width: 280px;
+            border-radius: 18px;
+            background: #1b3327;
+            overflow: hidden;
+            box-shadow: 0 15px 25px -10px black;
+            transition: 0.25s ease;
+            border: 1px solid #4b6b4f;
+            cursor: pointer;
+        }
+
+        .thumb-card:hover {
+            transform: scale(1.05) translateY(-8px);
+            border-color: #dcb568;
+            box-shadow: 0 25px 30px -8px #221d0f;
+        }
+
+        .thumb-img {
+            height: 158px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .thumb-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #c29a4b;
+            color: #1f2f1f;
+            font-weight: 800;
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 30px;
+            border: 1px solid #fad47b;
+        }
+
+        .live-badge {
+            background: #c0392b;
+            color: white;
+            border: none;
+            left: 10px;
+            right: auto;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity:1; } 50% { opacity:0.7; } }
+
+        .thumb-info {
+            padding: 16px 14px;
+        }
+
+        .thumb-info h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .thumb-meta {
+            display: flex;
+            gap: 12px;
+            color: #b1bbaa;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+        }
+
+        .thumb-meta i {
+            color: #cb9f4c;
+        }
+
+        .featured-badge {
+            background: #b68b40;
+            color: #131313;
+            border-radius: 12px;
+            padding: 2px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        /* special interactive section (tiers) */
+        .tiers-panel {
+            background: linear-gradient(145deg, #17261d, #0b1b12);
+            margin: 60px 40px;
+            border-radius: 60px;
+            padding: 50px 40px;
+            border: 1px solid #947e48;
+            box-shadow: inset 0 0 20px #232b1b;
+        }
+
+        .tiers-title {
+            text-align: center;
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #e9dbb0;
+        }
+
+        .tier-cards {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tier-card {
+            background: #1d3226;
+            padding: 32px 22px;
+            border-radius: 40px;
+            flex: 1 1 240px;
+            max-width: 280px;
+            text-align: center;
+            border: 2px solid #6f874b;
+            transition: 0.2s;
+            box-shadow: 0 20px 30px -10px #040404;
+        }
+
+        .tier-card.popular {
+            border-color: #e3b459;
+            background: #284434;
+            transform: scale(1.02);
+        }
+
+        .tier-card .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fad165;
+            margin: 16px 0;
+        }
+
+        .tier-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .tier-card li {
+            margin: 12px 0;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .tier-card li i {
+            color: #eab459;
+        }
+
+        .tier-btn {
+            background: transparent;
+            border: 2px solid #ba9d50;
+            color: #f7e1a4;
+            padding: 12px 0;
+            width: 100%;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: 0.2s;
+        }
+
+        .tier-btn:hover {
+            background: #bb9d50;
+            color: #121e13;
+        }
+
+        /* fan zone banner */
+        .fanzone {
+            margin: 40px 40px;
+            background: #1d3929;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            padding: 30px 40px;
+            border: 1px solid #ad8b4a;
+            background: linear-gradient(120deg, #233f2b, #1b3523);
+        }
+
+        .fanzone-content {
+            flex: 2;
+        }
+
+        .fanzone h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .fanzone p {
+            color: #c6d9c0;
+            font-size: 1.1rem;
+        }
+
+        .fanzone-button {
+            background: #c7a14d;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* footer */
+        .footer {
+            margin-top: 70px;
+            padding: 40px 40px 20px;
+            border-top: 1px solid #5f794b;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            color: #abb89e;
+        }
+
+        .footer-col p {
+            margin: 8px 0;
+        }
+
+        .footer i {
+            color: #b19449;
+            margin-right: 8px;
+        }
+
+        .app-store {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .store-badge {
+            background: #17281d;
+            border-radius: 20px;
+            padding: 8px 20px;
+            border: 1px solid #8b793e;
+        }
+
+        /* bottom tagline */
+        .tagline {
+            text-align: center;
+            padding: 30px 0 20px;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #dac292;
+        }
+
+        /* responsiveness */
+        @media (max-width: 900px) {
+            .navbar { flex-direction: column; gap: 20px; }
+            .hero h1 { font-size: 2.5rem; }
+            .container, .hero, .category-row, .tiers-panel { padding: 0 20px; margin: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- header -->
+    <div class="navbar">
+        <div class="logo">
+            <div class="logo-icon">B</div>
+            <span class="logo-text">BALLFLIX</span>
+        </div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Matches</a>
+            <a href="#">Originals</a>
+            <a href="#">Highlights</a>
+            <a href="#">Training</a>
+            <a href="#">My Club</a>
+        </div>
+        <div class="user-menu">
+            <i class="fas fa-search"></i>
+            <i class="fas fa-bell"></i>
+            <div class="avatar"><i class="fas fa-user" style="font-size: 1.2rem; color:#bd9e58;"></i></div>
+        </div>
+    </div>
+
+    <!-- hero (featured: live match / original) -->
+    <div class="hero">
+        <div class="hero-content">
+            <span class="hero-badge"><i class="fas fa-circle" style="color:#ed1c1c; margin-right:6px;"></i> LIGA EL CLASSICO · LIVE</span>
+            <h1>Real Madrid vs Barcelona</h1>
+            <p>Kick-off 20:45 · El Clásico rivalries renewed. Watch live with multi‑angle, 4K HDR, and fan zone chat.</p>
+            <div class="hero-buttons">
+                <div class="btn-primary"><i class="fas fa-play"></i> Watch live</div>
+                <div class="btn-secondary"><i class="fas fa-info-circle"></i> Match Hub</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- content rows -->
+
+    <!-- row 1: LIVE NOW -->
+    <div class="category-row">
+        <div class="row-header">
+            <h2><i class="fas fa-circle" style="color:#e63946; font-size:1.4rem;"></i> LIVE NOW</h2>
+            <a href="#" class="row-link">View all <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="thumb-row">
+            <div class="thumb-card">
+                <div class="thumb-img" style="background-image: linear-gradient(145deg, #132e1d, #163f24), url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22><rect width=%22200%22 height=%22150%22 fill=%22264d2e%22/><circle cx=%22140%22 cy=%2270%22 r=%2230%22 fill=%22%23c49a3f%22/><circle cx=%2270%22 cy=%2290%22 r=%2225%22 fill=%22%23b3761a%22/></svg>');">
+                    <span class="thumb-badge live-badge"><i class="fas fa-circle"></i> LIVE · 32'</span>
+                </div>
+                <div class="thumb-info">
+                    <h4>Bayern München · BVB</h4>
+                    <div class="thumb-meta"><span><i class="fas fa-futbol"></i> 2-1</span><span><i class="fas fa-eye"></i> 18k watching</span></div>
+                    <span class="featured-badge">Bundesliga</span>
+                </div>
+            </div>
+            <div class="thumb-card">
+                <div class="thumb-img" style="background-image: linear-gradient(145deg, #1d3d28, #124024);">
+                    <span class="thumb-badge live-badge"><i class="fas fa-circle"></i> LIVE · 12'</span>
+                </div>
+                <div class="thumb-info">
+                    <h4>PSG · Olympique Lyon</h4>
+                    <div class="thumb-meta"><span><i class="fas fa-futbol"></i> 0-0</span><span><i class="fas fa-eye"></i> 9.2k</span></div>
+                    <span class="featured-badge">Ligue 1</span>
+                </div>
+            </div>
+            <div class="thumb-card">
+                <div class="thumb-img" style="background-image: linear-gradient(145deg, #173021, #0d301c);">
+                    <span class="thumb-badge live-badge"><i class="fas fa-circle"></i> LIVE · 67'</span>
+                </div>
+                <div class="thumb-info">
+                    <h4>Man City · Arsenal</h4>
+                    <div class="thumb-meta"><span><i class="fas fa-futbol"></i> 1-2</span><span><i class="fas fa-eye"></i> 24.3k</span></div>
+                    <span class="featured-badge">Premier League</span>
+                </div>
+            </div>
+            <div class="thumb-card">
+                <div class="thumb-img" style="background-image: linear-gradient(145deg, #284e34, #144025);">
+                    <span class="thumb-badge live-badge"><i class="fas fa-circle"></i> LIVE · 2H</span>
+                </div>
+                <div class="thumb-info">
+                    <h4>Inter · AC Milan</h4>
+                    <div class="thumb-meta"><span><i class="fas fa-futbol"></i> 0-0</span><span><i class="fas fa-eye"></i> 11.7k</span></div>
+                    <span class="featured-badge">Serie A</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- row 2: BallFlix Originals -->
+    <div class="category-row">
+        <div class="row-header">
+            <h2><i class="fas fa-star" style="color:#f5b342;"></i> BallFlix Originals</h2>
+            <a href="#" class="row-link">Explore series <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="thumb-row">
+            <div class="thumb-card">
+                <div class="thumb-img" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22><rect width=%22200%22 height=%22150%22 fill=%22223d1e%22/><text x=%2230%22 y=%2290%22 fill=%22%23e3c268%22 font-size=%2224%22>🎙️</text></svg>');"><span class="thumb-badge">NEW</span></div>
+                <div class="thumb-info">
+                    <h4>The Tactics Room</h4>
+                    <div class="thumb-meta"><span><i class="far fa-clock"></i> S2 E8</span></div>
+                    <span class="featured-badge">Klopp analysis</span>
+                </div>
+            </div>
+            <div class="thumb-card">
+                <div class="thumb-img" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22><rect width=%22200%22 height=%22150%22 fill=%22244927%22/><text x=%2230%22 y=%2280%22 fill=%22%23dba851%22 font-size=%2232%22>👕</text></svg>');"><span class="thumb-badge">DOC</span></div>
+                <div class="thumb-info">
+                    <h4>Legends: Maldini</h4>
+                    <div class="thumb-meta"><span><i class="fas fa-clock"></i> 1h 42min</span></div>
+                </div>
+            </div>
+            <div class="thumb-card">
+                <div class="thumb-img" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22><rect width=%22200%22 height=%22150%22 fill=%221d4729%22/><text x=%2220%22 y=%2280%22 fill=%22%23d3a451%22 font-size=%2230%22>⚔️</text></svg>');"></div>
+                <div class="thumb-info">
+                    <h4>Derby Days</h4>
+                    <div class="thumb-meta"><span>Old Firm</span></div>
+                </div>
+            </div>
+            <div class="thumb-card">
+                <div class="thumb-img" style="background-image: url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 150%22><rect width=%22200%22 height=%22150%22 fill=%22275831%22/><text x=%2230%22 y=%2280%22 fill=%22%23e5bc64%22 font-size=%2228%22>🌟</text></svg>');"></div>
+                <div class="thumb-info">
+                    <h4>Next Gen: Yamal</h4>
+                    <div class="thumb-meta"><span>EP 3</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- row 3: Premier League Highlights + classic -->
+    <div class="category-row">
+        <div class="row-header">
+            <h2><i class="fas fa-bolt"></i> Quick Highlights</h2>
+            <a href="#" class="row-link">more <i class="fas fa-chevron-right"></i></a>
+        </div>
+        <div class="thumb-row">
+            <div class="thumb-card">
+                <div class="thumb-img" style="background: #17381f;"><span class="thumb-badge">15min</span></div>
+                <div class="thumb-info"><h4>Liverpool · Chelsea</h4><div class="thumb-meta"><span><i class="fas fa-futbol"></i> 3-2</span></div></div>
+            </div>
+            <div class="thumb-card">
+                <div class="thumb-img" style="background: #17381f;"><span class="thumb-badge">extended</span></div>
+                <div class="thumb-info"><h4>Arsenal · Tottenham</h4><div class="thumb-meta"><span> NLD </span></div></div>
+            </div>
+            <div class="thumb-card">
+                <div class="thumb-img" style="background: #17381f;"></div>
+                <div class="thumb-info"><h4>Man Utd · Liverpool</h4><div class="thumb-meta"><span>classic 99'</span></div></div>
+            </div>
+            <div class="thumb-card">
+                <div class="thumb-img" style="background: #17381f;"></div>
+                <div class="thumb-info"><h4>World Cup '86</h4><div class="thumb-meta"><span>Maradona</span></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription tiers -->
+    <div class="tiers-panel">
+        <div class="tiers-title">pick your pitch pass</div>
+        <div class="tier-cards">
+            <div class="tier-card">
+                <i class="fas fa-tv" style="font-size: 2.8rem; color:#be9f55;"></i>
+                <h3>BallFlix Basic</h3>
+                <div class="price">$9.99<span style="font-size: 1rem;">/mo</span></div>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Full replays (48h)</li>
+                    <li><i class="fas fa-check-circle"></i> Highlights & docs</li>
+                    <li><i class="fas fa-check-circle"></i> 1 device</li>
+                </ul>
+                <div class="tier-btn">Select</div>
+            </div>
+            <div class="tier-card popular">
+                <i class="fas fa-wifi" style="font-size: 2.8rem; color:#e5bc5b;"></i>
+                <h3>BallFlix Pro</h3>
+                <div class="price">$14.99<span style="font-size: 1rem;">/mo</span></div>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Live matches all leagues</li>
+                    <li><i class="fas fa-check-circle"></i> Multi‑angle / 4K</li>
+                    <li><i class="fas fa-check-circle"></i> 3 simultaneous</li>
+                </ul>
+                <div class="tier-btn" style="background:#c1a252; color:#0c1f0e;">Most popular</div>
+            </div>
+            <div class="tier-card">
+                <i class="fas fa-crown" style="font-size: 2.8rem; color:#c6a75b;"></i>
+                <h3>Ultimate</h3>
+                <div class="price">$24.99<span style="font-size: 1rem;">/mo</span></div>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Exclusive originals</li>
+                    <li><i class="fas fa-check-circle"></i> 5 devices + merch discount</li>
+                    <li><i class="fas fa-check-circle"></i> Virtual stadium</li>
+                </ul>
+                <div class="tier-btn">Select</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Training & Fan Zone  -->
+    <div style="display: flex; gap: 30px; margin: 40px;">
+        <div style="flex: 1; background: #1d392b; border-radius: 40px; padding: 32px; border:1px solid #a98f44;">
+            <i class="fas fa-futbol" style="font-size: 3rem; color:#eac474;"></i>
+            <h3 style="font-size: 2rem;">⚽ Training Academy</h3>
+            <p style="color:#c1cfb2;">Pro drills, skill school & keeper training.</p>
+            <div style="margin-top:20px;"><i class="fas fa-arrow-right"></i> start session</div>
+        </div>
+        <div class="fanzone" style="flex:2; margin:0;">
+            <div class="fanzone-content">
+                <h3><i class="fas fa-users" style="color:#f5c759;"></i> Fan Zone</h3>
+                <p>Fan reactions, tifo culture, watch parties – join thousands of supporters.</p>
+            </div>
+            <div class="fanzone-button"><i class="fas fa-rocket"></i> enter zone</div>
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="footer">
+        <div class="footer-col">
+            <p><i class="fas fa-copyright"></i> 2026 BallFlix – where football never ends</p>
+            <p><i class="fas fa-globe"></i> English · <i class="fas fa-signal"></i> 4K HDR</p>
+        </div>
+        <div class="footer-col">
+            <p><i class="fab fa-instagram"></i> @ballflix</p>
+            <p><i class="fab fa-tiktok"></i> @ballflix</p>
+        </div>
+        <div class="footer-col app-store">
+            <span class="store-badge"><i class="fab fa-apple"></i> App Store</span>
+            <span class="store-badge"><i class="fab fa-google-play"></i> Google Play</span>
+        </div>
+    </div>
+    <div class="tagline">
+        ⚡ THE BEAUTIFUL GAME, BEAUTIFULLY STREAMED ⚡
+    </div>
+</body>
+</html>
